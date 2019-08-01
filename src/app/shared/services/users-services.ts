@@ -1,4 +1,5 @@
 import { User } from '../models/user.model';
+import { Movie } from '../models/movie-model';
 
 export class UserService {
     currentStatus:string = "Offline";
@@ -45,6 +46,63 @@ export class UserService {
         this.allUser.push(newUser);
         this.currentUser = newUser;
         this.currentStatus = "Online";
+    }
+
+    addLikedMovie(movie:Movie){
+        this.currentUser.getLikedMovie.push(movie);
+    }
+
+    addDislikedMovie(movie:Movie){
+        this.currentUser.getDislikedMovie.push(movie);
+    }
+
+    rmLikedMovie(movie:Movie){
+        // this.currentUser.getLikedMovie.push(movie);
+        var arr = [];
+        this.currentUser.getLikedMovie.forEach(element => {
+            if(element.getId != movie.getId){
+                arr.push(element);
+            }
+        });
+
+        this.currentUser.likedList = arr;
+
+    }
+
+    rmDislikedMovie(movie:Movie){
+        // this.currentUser.getDislikedMovie.push(movie);
+
+
+        var arr = [];
+        this.currentUser.getDislikedMovie.forEach(element => {
+            if(element.getId != movie.getId){
+                arr.push(element);
+            }
+        });
+
+        this.currentUser.dislikedList = arr;
+    }
+
+    likedMovieFound(movie:Movie){
+        var flag =false;
+        this.currentUser.getLikedMovie.forEach(element => {
+            if(element.getId == movie.getId){
+                flag = true;
+                return;
+            }
+        });
+        return flag;
+    }
+
+    dislikedMovieFound(movie:Movie){
+        var flag =false;
+        this.currentUser.getDislikedMovie.forEach(element => {
+            if(element.getId == movie.getId){
+                flag = true;
+                return;
+            }
+        });
+        return flag;
     }
 
     

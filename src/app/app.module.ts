@@ -14,6 +14,7 @@ import { MoviesInfoComponent } from './body/dashboard/movies-info/movies-info.co
 import { UserProfileComponent } from './body/dashboard/user-profile/user-profile.component';
 import { MovieService } from './shared/services/movie-services';
 import { UserService } from './shared/services/users-services';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 const rout:Routes=[
   {path : "", component : BodyComponent},
@@ -40,6 +41,7 @@ const rout:Routes=[
   ],
   imports: [
     BrowserModule,
+    AngularFontAwesomeModule,
     RouterModule.forRoot(rout)
   ],
   providers: [MovieService, UserService],

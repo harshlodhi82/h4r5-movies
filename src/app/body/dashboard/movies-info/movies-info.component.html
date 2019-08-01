@@ -1,11 +1,32 @@
 <div class="container-fluid">
     <div class="row">
         <div class="card">
-            <img [src]="movie.getImgUrl"
-                alt="" class="card-img-top">
+            <img [src]="movie.getImgUrl" alt="" class="card-img-top">
             <div class="card-body">
                 <h2 class="card-titel">{{ movie.getName }}</h2>
                 <hr class="my-2">
+                <div class="like-dis">
+                    <div class="row float-right">
+                        <div class="card m-4 text-center" (click)="oneLike()">
+                            <i class="card-titel fas fa-thumbs-up fa-2x"></i>
+                            <p class="m-2"> {{ movie.getLikes }} </p>
+                        </div>
+
+                        <div class="card m-4 text-center" (click)="oneDisLike()">
+                            <i class="card-titel fas fa-thumbs-down fa-2x"></i>
+                            <p class="m-2"> {{ movie.getDislikes }} </p>
+                        </div>
+                        <!-- <p class="m-4" (click)="oneLike()"><i class="fas fa-thumbs-down fa-2x"></i></p> -->
+                    </div>
+
+                </div>
+                <!-- <span> {{ movie.getLikes }} </span> -->
+                <!-- <button class="" (click)="oneLike()" [disabled]="lbtnClicked" ><i class="fas fa-thumbs-up"></i></button> -->
+
+                <!-- <span> || {{ movie.getDislikes }} </span> -->
+                <!-- <button class="btn btn-danger" (click)="oneDisLike()" [disabled]="dlbtnClicked">dislike</button> -->
+                <br>
+                <br>
                 <button class="btn btn-danger">Rating : {{ movie.getRating }}</button>
                 <br>
                 <br>
