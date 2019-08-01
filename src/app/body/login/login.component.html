@@ -1,1 +1,39 @@
-<p>login works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group bg-danger p-4 my-form">
+                <div class="row">
+                    <div class="col-sm-2 mt-4">
+                        <label for="email" class="text-white">Email</label>
+                    </div>
+                    <div class="col-sm-10 mt-4">
+                        <input id="email" type="text" class="form-control" placeholder="Enter your email address.." #email>
+                    </div>
+
+                    <div class="col-sm-2 mt-2">
+                        <label for="pass" class="text-white">Password</label>
+                    </div>
+                    <div class="col-sm-10 mt-2">
+                        <input id="pass" type="text" class="form-control" placeholder="Enter your password.." #pass>
+                    </div>
+
+                    <div class="col-sm-2 mt-5 mb-2">
+                    </div>
+
+                    <div class="col-sm-5 mt-5 mb-2 my-link">
+                        <a routerLink="/signup" class="text-white">Create account?</a>
+                    </div>
+
+                    <div class="col-sm-4 mt-5 mb-2">
+                        <button class="btn btn-light text-danger float-right" (click)="validater(email, pass)">Login</button>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+</div>

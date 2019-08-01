@@ -1,0 +1,9 @@
+.movie-card{
+    min-width: 14rem; 
+    cursor: pointer;
+}
+
+.movie-card:hover{
+    box-shadow: 1px 1px 50px grey;
+}
+

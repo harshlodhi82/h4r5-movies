@@ -1,1 +1,17 @@
-<p>user-profile works!</p>
+<div class="container-fluid">
+        <div class="row">
+            <div class="card text-center" style="width: 100%">
+                <img src="https://ekragency.com/wp-content/uploads/2016/11/google-bg-1.jpg"  alt="" class="card-img-top">
+                <div class="user-icon">
+                    <p class="align-middle text-uppercase">{{ userServ.currentUser.getEmail.slice(0,1) }}</p>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-titel">{{ userServ.currentUser.getEmail }}</h4>
+                    <hr class="my-2">
+                    <button class="btn btn-danger" (click)="logout()">Logout</button>
+                    <br>
+
+                </div>
+            </div>
+        </div>
+    </div>

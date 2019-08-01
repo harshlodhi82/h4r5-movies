@@ -1,1 +1,16 @@
-<p>movies-info works!</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="card">
+            <img [src]="movie.getImgUrl"
+                alt="" class="card-img-top">
+            <div class="card-body">
+                <h2 class="card-titel">{{ movie.getName }}</h2>
+                <hr class="my-2">
+                <button class="btn btn-danger">Rating : {{ movie.getRating }}</button>
+                <br>
+                <br>
+                <p class="card-text">{{ movie.getInfo }}</p>
+            </div>
+        </div>
+    </div>
+</div>

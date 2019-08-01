@@ -1,1 +1,21 @@
-<p>movies-list works!</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="card-deck ">
+            
+            <div class="card movie-card" (click)="navigateInfo(i.getId)" *ngFor="let i of movieList">
+                <img [src]="i.getImgUrl" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h4 class="card-titel">{{ i.getName }}</h4>
+                    <hr class="my-4">
+                    <p class="card-text">{{ i.getInfo.slice(0,10) }}</p>
+                    <button class="btn btn-danger">Rating : {{ i.getRating }}</button>
+                </div>
+            </div>
+
+            
+        </div>
+    </div>
+
+</div>
+
+

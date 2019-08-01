@@ -12,14 +12,16 @@ import { SearchComponent } from './body/dashboard/search/search.component';
 import { MoviesListComponent } from './body/dashboard/movies-list/movies-list.component';
 import { MoviesInfoComponent } from './body/dashboard/movies-info/movies-info.component';
 import { UserProfileComponent } from './body/dashboard/user-profile/user-profile.component';
+import { MovieService } from './shared/services/movie-services';
+import { UserService } from './shared/services/users-services';
 
 const rout:Routes=[
   {path : "", component : BodyComponent},
   {path : "login", component : LoginComponent},
-  {path : "logout", component : LogoutComponent},
+  {path : "signup", component : LogoutComponent},
   {path : "home", component : DashboardComponent, children: [
     {path : "", component : UserProfileComponent},
-    {path : ":id/:movieName", component : MoviesInfoComponent}
+    {path : ":id", component : MoviesInfoComponent}
   ]}
 ];
 
@@ -34,13 +36,13 @@ const rout:Routes=[
     SearchComponent,
     MoviesListComponent,
     MoviesInfoComponent,
-    UserProfileComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(rout)
   ],
-  providers: [],
+  providers: [MovieService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

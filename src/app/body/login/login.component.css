@@ -1,0 +1,12 @@
+.my-form{
+    margin:20px; 
+    width:50%; 
+    position: relative; 
+    left:50%;
+    transform: translateX(-50%);
+    border-radius: 8px;
+}
+
+.my-link{
+    cursor: pointer;
+}

@@ -1,0 +1,14 @@
+.user-icon{
+    width:200px;
+    height:200px;
+    border-radius: 50%;
+    background-color: red;
+    margin: auto;   
+    margin-top: -100px;
+}
+
+.user-icon p{
+    color: white;
+    text-align: center;
+    font-size: 140px;
+}
