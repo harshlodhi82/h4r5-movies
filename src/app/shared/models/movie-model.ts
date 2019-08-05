@@ -2,16 +2,18 @@ export class Movie {
     private id: string;
     private name: string;
     private info: string;
-    private rating: string;
+    private rating: {}={
+        "users":0,
+        "Rating":0
+    };
     private imgUrl: string;
     private likes: number = 0;
     private dislikes: number = 0;
 
-    constructor(id: string, name: string, info: string, rating: string, imgUrl: string) {
+    constructor(id: string, name: string, info: string, imgUrl: string) {
         this.id = id;
         this.name = name;
         this.info = info;
-        this.rating = rating;
         this.imgUrl = imgUrl;
     }
 
@@ -41,6 +43,11 @@ export class Movie {
 
     get getDislikes() {
         return this.dislikes;
+    }
+
+    setRating(numberOfUser:number, rate:number){
+        this.rating["users"] = numberOfUser;
+        this.rating["Rating"] = rate;
     }
 
     pLikes() {

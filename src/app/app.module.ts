@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule} from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { BodyComponent } from './body/body.component';
@@ -42,7 +43,8 @@ const rout:Routes=[
   imports: [
     BrowserModule,
     AngularFontAwesomeModule,
-    RouterModule.forRoot(rout)
+    FormsModule,
+    RouterModule.forRoot(rout),
   ],
   providers: [MovieService, UserService],
   bootstrap: [AppComponent]

@@ -9,14 +9,42 @@ import { Movie } from 'src/app/shared/models/movie-model';
   styleUrls: ['./movies-list.component.css']
 })
 export class MoviesListComponent implements OnInit {
-  movieList:Array<Movie>;
-  constructor(private router:Router ,private rout:ActivatedRoute, private movies:MovieService) { }
+  movieList: Array<Movie>;
+  // filteredList:Array<Movie>;
+  constructor(private router: Router, private rout: ActivatedRoute, private movies: MovieService) { }
 
   ngOnInit() {
+
     this.movieList = this.movies.moviesList;
+    this.filterList(false);
+    console.log(">>>>RUNNN");
+
+
+
   }
-  navigateInfo(id:string){
-    this.router.navigate([id],{relativeTo:this.rout});
+  navigateInfo(id: string) {
+    this.router.navigate([id], { relativeTo: this.rout });
+  }
+
+  filterList(flag) {
+    
+    if (flag) {
+      var filteredList = this.movieList;
+      filteredList = this.movieList.filter((movie: any) => {
+        if (movie.getName.toLowerCase().includes(this.movies.getSearchQuery.toLowerCase())) {
+          return movie;
+        }
+      });
+
+      if (filteredList.length == 0) {
+        filteredList = this.movieList;
+      }
+
+      return filteredList;
+    } else {
+      this.movies.setSearchQuery = "";
+    }
+
   }
 
 }

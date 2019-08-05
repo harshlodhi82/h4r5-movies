@@ -5,31 +5,41 @@
             <div class="card-body">
                 <h2 class="card-titel">{{ movie.getName }}</h2>
                 <hr class="my-2">
-                <div class="like-dis">
+                <div>
+                    <div class="m-4 float-left rate-cont">
+                        <button class="btn btn-danger mb-4" (click)="showRating()">Rating :
+                            {{ movie.getRating["Rating"].toFixed(1) }}</button>
+                        <div class="ratings" [ngStyle]="setDisplay()">
+                            <i class="fas fa-star fa-2x" (click)="gotRating(1)" [ngStyle]="setColoredRating(1)"
+                                style="cursor: pointer"></i>
+                            <i class="fas fa-star fa-2x" (click)="gotRating(2)" [ngStyle]="setColoredRating(2)"
+                                style="cursor: pointer"></i>
+                            <i class="fas fa-star fa-2x" (click)="gotRating(3)" [ngStyle]="setColoredRating(3)"
+                                style="cursor: pointer"></i>
+                            <i class="fas fa-star fa-2x" (click)="gotRating(4)" [ngStyle]="setColoredRating(4)"
+                                style="cursor: pointer"></i>
+                            <i class="fas fa-star fa-2x" (click)="gotRating(5)" [ngStyle]="setColoredRating(5)"
+                                style="cursor: pointer"></i>
+                        </div>
+                    </div>
                     <div class="row float-right">
-                        <div class="card m-4 text-center" (click)="oneLike()">
-                            <i class="card-titel fas fa-thumbs-up fa-2x"></i>
+
+                        <div class="m-4 text-center">
+                            <i class="fas fa-thumbs-up fa-2x" (click)="oneLike()" [ngStyle]="likeBtnColChanger()"></i>
                             <p class="m-2"> {{ movie.getLikes }} </p>
                         </div>
 
-                        <div class="card m-4 text-center" (click)="oneDisLike()">
-                            <i class="card-titel fas fa-thumbs-down fa-2x"></i>
+                        <div class=" m-4 text-center">
+                            <i class="fas fa-thumbs-down fa-2x" (click)="oneDisLike()"
+                                [ngStyle]="dislikeBtnColChanger()"></i>
                             <p class="m-2"> {{ movie.getDislikes }} </p>
                         </div>
-                        <!-- <p class="m-4" (click)="oneLike()"><i class="fas fa-thumbs-down fa-2x"></i></p> -->
                     </div>
 
                 </div>
-                <!-- <span> {{ movie.getLikes }} </span> -->
-                <!-- <button class="" (click)="oneLike()" [disabled]="lbtnClicked" ><i class="fas fa-thumbs-up"></i></button> -->
-
-                <!-- <span> || {{ movie.getDislikes }} </span> -->
-                <!-- <button class="btn btn-danger" (click)="oneDisLike()" [disabled]="dlbtnClicked">dislike</button> -->
-                <br>
-                <br>
-                <button class="btn btn-danger">Rating : {{ movie.getRating }}</button>
-                <br>
-                <br>
+                <div class="clearfix"></div>
+                
+                <hr class="m-2">
                 <p class="card-text">{{ movie.getInfo }}</p>
             </div>
         </div>
