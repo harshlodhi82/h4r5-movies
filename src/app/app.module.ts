@@ -16,12 +16,15 @@ import { UserProfileComponent } from './body/dashboard/user-profile/user-profile
 import { MovieService } from './shared/services/movie-services';
 import { UserService } from './shared/services/users-services';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { AppGuard } from './shared/services/app-guard-services';
+import { AddMovieComponent } from './body/add-movie/add-movie.component';
 
 const rout:Routes=[
   {path : "", component : BodyComponent},
   {path : "login", component : LoginComponent},
   {path : "signup", component : LogoutComponent},
-  {path : "home", component : DashboardComponent, children: [
+  {path : "add-movie",canActivate : [AppGuard], component : AddMovieComponent},
+  {path : "home",canActivate:[AppGuard], component : DashboardComponent, children: [
     {path : "", component : UserProfileComponent},
     {path : ":id", component : MoviesInfoComponent}
   ]}
@@ -38,7 +41,8 @@ const rout:Routes=[
     SearchComponent,
     MoviesListComponent,
     MoviesInfoComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    AddMovieComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +50,7 @@ const rout:Routes=[
     FormsModule,
     RouterModule.forRoot(rout),
   ],
-  providers: [MovieService, UserService],
+  providers: [MovieService, UserService, AppGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

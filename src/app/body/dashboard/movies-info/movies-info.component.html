@@ -6,41 +6,50 @@
                 <h2 class="card-titel">{{ movie.getName }}</h2>
                 <hr class="my-2">
                 <div>
-                    <div class="m-4 float-left rate-cont">
-                        <button class="btn btn-danger mb-4" (click)="showRating()">Rating :
-                            {{ movie.getRating["Rating"].toFixed(1) }}</button>
-                        <div class="ratings" [ngStyle]="setDisplay()">
-                            <i class="fas fa-star fa-2x" (click)="gotRating(1)" [ngStyle]="setColoredRating(1)"
-                                style="cursor: pointer"></i>
-                            <i class="fas fa-star fa-2x" (click)="gotRating(2)" [ngStyle]="setColoredRating(2)"
-                                style="cursor: pointer"></i>
-                            <i class="fas fa-star fa-2x" (click)="gotRating(3)" [ngStyle]="setColoredRating(3)"
-                                style="cursor: pointer"></i>
-                            <i class="fas fa-star fa-2x" (click)="gotRating(4)" [ngStyle]="setColoredRating(4)"
-                                style="cursor: pointer"></i>
-                            <i class="fas fa-star fa-2x" (click)="gotRating(5)" [ngStyle]="setColoredRating(5)"
-                                style="cursor: pointer"></i>
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <button class="btn btn-danger mt-4 mb-4" (click)="showRating()">
+                                <i class="fas fa-star"> </i>
+                                Rating :
+                                {{ movie.getRating["Rating"].toFixed(1) }}</button>
+                            <div class="ratings" [ngStyle]="setDisplay()">
+                                <i class="fas fa-star fa-2x" (click)="gotRating(1)" [ngStyle]="setColoredRating(1)"
+                                    style="cursor: pointer"></i>
+                                <i class="fas fa-star fa-2x" (click)="gotRating(2)" [ngStyle]="setColoredRating(2)"
+                                    style="cursor: pointer"></i>
+                                <i class="fas fa-star fa-2x" (click)="gotRating(3)" [ngStyle]="setColoredRating(3)"
+                                    style="cursor: pointer"></i>
+                                <i class="fas fa-star fa-2x" (click)="gotRating(4)" [ngStyle]="setColoredRating(4)"
+                                    style="cursor: pointer"></i>
+                                <i class="fas fa-star fa-2x" (click)="gotRating(5)" [ngStyle]="setColoredRating(5)"
+                                    style="cursor: pointer"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <div class="m-4 text-center d-inline-block" style="cursor: pointer;">
+                                <i class="fas fa-thumbs-up fa-2x" (click)="oneLike()"
+                                    [ngStyle]="likeBtnColChanger()"></i>
+                                <p class="m-2"> {{ movie.getLikes }} </p>
+                            </div>
+
+                            <div class=" m-4 text-center d-inline-block" style="cursor: pointer;">
+                                <i class="fas fa-thumbs-down fa-2x" (click)="oneDisLike()"
+                                    [ngStyle]="dislikeBtnColChanger()"></i>
+                                <p class="m-2"> {{ movie.getDislikes }} </p>
+                            </div>
+
                         </div>
                     </div>
-                    <div class="row float-right">
 
-                        <div class="m-4 text-center">
-                            <i class="fas fa-thumbs-up fa-2x" (click)="oneLike()" [ngStyle]="likeBtnColChanger()"></i>
-                            <p class="m-2"> {{ movie.getLikes }} </p>
-                        </div>
-
-                        <div class=" m-4 text-center">
-                            <i class="fas fa-thumbs-down fa-2x" (click)="oneDisLike()"
-                                [ngStyle]="dislikeBtnColChanger()"></i>
-                            <p class="m-2"> {{ movie.getDislikes }} </p>
-                        </div>
-                    </div>
 
                 </div>
                 <div class="clearfix"></div>
-                
+
                 <hr class="m-2">
                 <p class="card-text">{{ movie.getInfo }}</p>
+                <div>
+
+                </div>
             </div>
         </div>
     </div>

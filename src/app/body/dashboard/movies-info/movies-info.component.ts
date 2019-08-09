@@ -166,17 +166,13 @@ export class MoviesInfoComponent implements OnInit {
 
   gotRating(num: number) {
 
-    var a =document.getElementsByClassName("circle-graph-progress");
-    
-    console.log(a);
-    
 
-    console.log(this.movie.getRating);
+    // console.log(this.movie.getRating);
     var totalRate = this.movie.getRating["Rating"];
     var totalUsers = this.movie.getRating["users"];
 
-    console.log("totalUsers : " + totalUsers);
-    console.log("totalRate : " + totalRate);
+    // console.log("totalUsers : " + totalUsers);
+    // console.log("totalRate : " + totalRate);
 
     if (!(this.movieId in this.userServ.currentUser.getMyRatings())) {
       totalUsers += 1;
@@ -201,7 +197,6 @@ export class MoviesInfoComponent implements OnInit {
     this.movie.setRating(eval(totalUsers), totalRate);
 
     var deg = 360*totalRate/100;
-    a["0"].style.transform = 'rotate('+ deg +'deg)';
 
   }
 

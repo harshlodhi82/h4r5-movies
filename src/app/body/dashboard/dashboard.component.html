@@ -4,12 +4,12 @@
 
             <div class="form-group">
                 <div class="row">
-                    <div class="col-10">
+                    <div class="col-9">
                         <input type="text" class="form-control" [(ngModel)]="movServ.setSearchQuery" (input)="resetSearch()" #squery>
                         <p class="text-danger mt-2">{{searchText}}</p>
                     </div>
-                    <div class="col-2">
-                        <button class="btn btn-primary w-100" (click)="getSearch(squery)"> <i class="fas fa-search"></i></button>
+                    <div class="col-3">
+                        <button class="btn btn-outline-danger w-100" (click)="getSearch(squery)"> <i class="fas fa-search"></i></button>
                     </div>
                 </div>
 

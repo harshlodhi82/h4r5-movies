@@ -1,6 +1,38 @@
 <div class="container">
-    <div class="row">
-        <div class="col-12">
+    <div class="row justify-content-center ">
+        <div class="shadow-lg col-xs-12 col-md-6 col-md-offset-3 text-white mt-4 p-4">
+            <h4 class="text-danger">Signup</h4>
+            <hr>
+            <form (ngSubmit)="createuser(f)" #f="ngForm">
+                <div class="alert alert-danger" *ngIf="error">
+                    <p>{{ error }}</p>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="text-dark">E-Mail</label>
+                    <input name="email" id="email" type="text" class="form-control" placeholder="Enter your Email"
+                        ngModel required email #email="ngModel">
+                    <small class="text-danger" *ngIf="email.touched && !email.valid">Please enter valid email</small>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="text-dark">Password</label>
+                    <input name="password" id="password" type="text" class="form-control"
+                        placeholder="Enter your Password" ngModel password required #pass="ngModel">
+                    <small class="text-danger" *ngIf="pass.touched && !pass.valid">Please enter password</small>
+                </div>
+                <div class="form-group">
+                    <label for="cpass" class="text-dark">Confirm password</label>
+                    <input name="conf-password" id="cpass" type="text" class="form-control"
+                        placeholder="Confirm your Password" ngModel password required #cpass="ngModel">
+                    <small class="text-danger" *ngIf="cpass.touched && !cpass.valid">Please confirm password.</small>
+                </div>
+                <div class="form-group text-right">
+                    <button routerLink="/login" type="button" class="btn btn-default text-danger">Already have an
+                        account?</button>
+                    <button type="submit" class="btn bg-danger text-white" [disabled]="!f.valid">Signup <i class="fas fa-user-plus"></i></button>
+                </div>
+            </form>
+        </div>
+        <!-- <div class="col-12">
             <div class="form-group bg-danger p-4 my-form">
                 <div class="row">
                     <div class="col-sm-2 mt-4">
@@ -39,7 +71,7 @@
 
             </div>
 
-        </div>
+        </div> -->
     </div>
 
 

@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { UserService } from 'src/app/shared/services/users-services';
 import { Router } from '@angular/router';
+import { NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-logout',
@@ -8,6 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./logout.component.css']
 })
 export class LogoutComponent implements OnInit {
+  error = null;
 
   constructor(private userServ: UserService, private router:Router) { }
 
@@ -15,19 +17,25 @@ export class LogoutComponent implements OnInit {
 
   }
 
-  createuser(email, pass, cpass) {
-    //console.log(email.value);
+  createuser(form:NgForm) {
+    console.log(form);
     
-    if (pass.value === cpass.value) {
-      if (this.userServ.validate(email.value)) {
-        this.userServ.createUser(email.value,pass.value);
+    if (form.value.password === form.value["conf-password"]) {
+      if (this.userServ.validate(form.value.email)) {
+        this.error = null;
+        this.userServ.currentStatus = 'Online';
+        this.userServ.createUser(form.value.email,form.value.password);
         this.router.navigate(["/home"]);
       }else{
-        console.log("Email is already exist.");
+        // console.log("Email is already exist.");
+        this.userServ.currentStatus = 'Offline';
+        this.error = "Email is already exist!";
       }
 
     }else{
-      console.log("password is not matching.");
+      // console.log();
+      this.userServ.currentStatus = 'Offline';
+      this.error = "Password is not matching!";
       
     }
 

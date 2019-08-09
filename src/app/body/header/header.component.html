@@ -1,4 +1,39 @@
-<div class="Jumbotron jumbotron-fluid bg-danger">
+<nav class="navbar navbar-expand-lg navbar-dark bg-danger" >
+    <div class="navbar-header">
+        <div class="navbar-brand">H4R5 Movies</div>
+    </div>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+
+            <li class="nav-item active"><a class="nav-link" routerLink="/home">Home</a></li>
+            <li class="nav-item" *ngIf="userServ.currentStatus=='Online'"><a class="nav-link" routerLink="/add-movie">Add Review</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="/aboutUs">About us</a></li>
+        </ul>
+        <hr>
+        <div *ngIf="userServ.currentStatus=='Offline'">
+            <button class="btn btn-default text-white" routerLink="/login">Login <i class="fas fa-sign-in-alt"></i></button>
+            <span class="text-white"> | </span>
+            <button class="btn btn-default text-white" routerLink="/signup">Signup <i class="fas fa-user-plus"></i></button>
+        </div>
+        <div *ngIf="userServ.currentStatus=='Online'">
+            <button class="btn btn-default text-white" (click)="logout()">Logout <i class="fas fa-sign-out-alt"></i></button>
+        </div>
+
+
+    </div>
+
+
+
+</nav>
+
+
+
+<!-- <div class="Jumbotron jumbotron-fluid bg-danger">
     <div class="container-fluid">
 
         <nav class="navbar navbar-expand-lg">
@@ -14,7 +49,7 @@
                         <a routerLink="/signup" class="nav-link text-white">Signup</a>
                     </li>
 
-                    <li class="nav-item mr-3" *ngIf="userServ.currentStatus=='Online'" style="cursor: pointer;">
+                    <li class="nav-item mr-3 " *ngIf="userServ.currentStatus=='Online'" style="cursor: pointer;">
                         <a (click)="logout()" class="nav-link text-white">Logout</a>
                     </li>
                 </ul>
@@ -23,4 +58,4 @@
         </nav>
 
     </div>
-</div>
+</div> -->

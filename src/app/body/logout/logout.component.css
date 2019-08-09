@@ -10,3 +10,7 @@
 .my-link{
     cursor: pointer;
 }
+
+input.ng-invalid.ng-touched {
+    border-color: rgb(255, 32, 32);
+}

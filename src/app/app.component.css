@@ -1,0 +1,17 @@
+.my-footer{
+    position: fixed;
+    display: inline-block ;
+    height:50px;
+    bottom:0;
+    width:100%;
+    text-align: center;
+    background-color: white;    
+    box-shadow: -1px 0px 10px grey;
+}
+
+.my-footer p{
+    position: relative;
+    top:50%;
+    transform: translateY(-50%);
+    
+}

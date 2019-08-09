@@ -2,6 +2,7 @@ import { Movie } from '../models/movie-model';
 
 export class MovieService {
     private srchQuery = "";
+    
     private info: string = "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus obcaecati qui facere aliquam beatae! Sapiente sed accusantium numquam itaque ea.";
     moviesList: Array<Movie> = [
         new Movie("1", "Avatar", this.info, "https://cnet3.cbsistatic.com/img/_c60tyhNYZ1ncjqXGsxiX3MRfH8=/1092x0/2019/01/11/b251bf04-5bf8-469a-be8d-79489551460b/avatar-2009.jpg"),
@@ -12,7 +13,10 @@ export class MovieService {
         new Movie("6", "MIB", this.info, "https://cdn3.movieweb.com/i/article/vFRqoTc5V0CWkQjBSkuVOptDtQakzv/798:50/Men-In-Black-International-Photo-Chris-Hemsworth-Tessa.jpg")
     ];
 
+    availID:number;
+
     constructor() {
+        this.availID = this.moviesList.length;
 
     }
 

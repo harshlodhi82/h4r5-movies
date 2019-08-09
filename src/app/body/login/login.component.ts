@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/shared/services/users-services';
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -9,21 +10,28 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
+  error = null;
+
   constructor(private userServ:UserService, private router:Router) { }
 
   ngOnInit() {
   }
 
-  validater(email, pass){
-    if (!this.userServ.validate(email.value)){
-      if(this.userServ.validatePass(email.value, pass.value)){
+  validater(form:NgForm){
+    console.log(form);
+    
+    if (!this.userServ.validate(form.value.email)){
+      if(this.userServ.validatePass(form.value.email, form.value.password)){
+        this.error = null;
+        this.userServ.currentStatus = 'Online';
         this.router.navigate(["/home"]);
       }else{
-        console.log("Wrong Password");
-        
+        this.userServ.currentStatus = 'Offline';
+        this.error = "Wrong Password!";
       }
     }else{
-      console.log("Enter valid Email.");
+      this.userServ.currentStatus = 'Offline';
+      this.error = "Entered wrong Email!";
       
     }
   }

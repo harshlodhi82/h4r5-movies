@@ -2,14 +2,17 @@
     <div class="row">
         <div class="card-deck ">
             
-            <div class="card movie-card" (click)="navigateInfo(i.getId)" *ngFor="let i of filterList(true)">
-                <img [src]="i.getImgUrl" alt="" class="card-img-top">
+            <div class="card movie-card mt-3" (click)="navigateInfo(i.getId)" *ngFor="let i of filterList(true)">
+            
+                <img class="card-img-top" [src]="i.getImgUrl" alt="" >
+                
                 <div class="card-body">
                     <h4 class="card-titel">{{ i.getName }}</h4>
                     <hr class="my-4">
-                    <p class="card-text">{{ i.getInfo.slice(0,50) }}</p>
-                    <button class="btn btn-danger">Rating : {{ i.getRating["Rating"].toFixed(1) }}</button>
+                    <p class="card-text">{{ i.getInfo.slice(0,50)+" ..." }}</p>
+                    <!-- <button class="btn btn-outline-danger">Rating : {{ i.getRating["Rating"].toFixed(1) }}</button> -->
                 </div>
+                <button class="btn btn-outline-danger m-4"><i class="fas fa-star"> </i> Rating : {{ i.getRating["Rating"].toFixed(1) }}</button>
             </div>
 
             

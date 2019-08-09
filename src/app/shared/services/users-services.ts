@@ -30,7 +30,6 @@ export class UserService {
         this.allUser.forEach(user => {
             if (user.getEmail === email) {
                 if(user.getPass === pass){
-                    this.currentStatus = "Online";
                     this.currentUser = user;
                     flag = true;
                     return;
