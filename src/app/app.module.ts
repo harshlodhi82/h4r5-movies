@@ -18,11 +18,13 @@ import { UserService } from './shared/services/users-services';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { AppGuard } from './shared/services/app-guard-services';
 import { AddMovieComponent } from './body/add-movie/add-movie.component';
+import { AboutComponent } from './body/about/about.component';
 
 const rout:Routes=[
   {path : "", component : BodyComponent},
   {path : "login", component : LoginComponent},
   {path : "signup", component : LogoutComponent},
+  {path : "about", component : AboutComponent},
   {path : "add-movie",canActivate : [AppGuard], component : AddMovieComponent},
   {path : "home",canActivate:[AppGuard], component : DashboardComponent, children: [
     {path : "", component : UserProfileComponent},
@@ -42,7 +44,8 @@ const rout:Routes=[
     MoviesListComponent,
     MoviesInfoComponent,
     UserProfileComponent,
-    AddMovieComponent
+    AddMovieComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-danger" >
-    <div class="navbar-header">
+    <div class="navbar-header" routerLink="/" style="cursor: pointer; outline:none">
         <div class="navbar-brand">H4R5 Movies</div>
     </div>
 
@@ -12,7 +12,7 @@
 
             <li class="nav-item active"><a class="nav-link" routerLink="/home">Home</a></li>
             <li class="nav-item" *ngIf="userServ.currentStatus=='Online'"><a class="nav-link" routerLink="/add-movie">Add Review</a></li>
-            <li class="nav-item"><a class="nav-link" routerLink="/aboutUs">About us</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="/about">About us</a></li>
         </ul>
         <hr>
         <div *ngIf="userServ.currentStatus=='Offline'">
