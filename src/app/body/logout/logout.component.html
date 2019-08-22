@@ -13,11 +13,14 @@
                         ngModel required email #email="ngModel">
                     <small class="text-danger" *ngIf="email.touched && !email.valid">Please enter valid email</small>
                 </div>
+
                 <div class="form-group">
                     <label for="password" class="text-dark">Password</label>
                     <input name="password" id="password" type="text" class="form-control"
-                        placeholder="Enter your Password" ngModel password required #pass="ngModel">
-                    <small class="text-danger" *ngIf="pass.touched && !pass.valid">Please enter password</small>
+                        placeholder="Enter your Password" ngModel password required minlength="8" pattern="^(?=.*\d)(?=.*[a-z])(?!.*\s)(?=.*[!#$%&'()*+,-/:=>?@\^_`{|}~]).{8,12}$" #pass="ngModel">
+
+                    <small class="text-danger" *ngIf="pass.touched && !pass.valid && pass.value.length > 0">Enter atleast 8 to 12 charecters, one special charecter and a number.</small>
+                    <small class="text-danger" *ngIf="pass.touched && pass.value.length == 0">Please enter password</small>
                 </div>
                 <div class="form-group">
                     <label for="cpass" class="text-dark">Confirm password</label>
