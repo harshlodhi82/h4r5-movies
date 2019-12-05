@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MovieService } from 'src/app/shared/services/movie-services';
-import { Movie } from 'src/app/shared/models/movie-model';
-import { User } from 'src/app/shared/models/user.model';
 import { UserService } from 'src/app/shared/services/users-services';
+import { HttpClient } from '@angular/common/http';
 
 declare var $: any;
 
@@ -12,221 +11,204 @@ declare var $: any;
   templateUrl: './movies-info.component.html',
   styleUrls: ['./movies-info.component.css']
 })
-export class MoviesInfoComponent implements OnInit {
-  movieId: string;
-  movie: Movie;
-  ratingClicked: boolean = false;
+export class MoviesInfoComponent implements OnInit, OnChanges {
 
-  starList: Array<{}> = [
-    { 'color': 'grey' },
-    { 'color': 'grey' },
-    { 'color': 'grey' },
-    { 'color': 'grey' },
-    { 'color': 'grey' }
+  movieObj: Object;
+
+  movId: string;
+  likes: number = 0;
+  dislikes: number = 0;
+  statusLD: number = 0;
+  movReviewrName: string;
+
+  movRating: number = 0;
+  usrRating: number = 0;
+
+  movIndex: number = 0;
+
+  showStars: Boolean = false;
+
+  starColor = [
+    { color: "grey" },
+    { color: "grey" },
+    { color: "grey" },
+    { color: "grey" },
+    { color: "grey" }
   ];
 
-  lbtnClicked: boolean;
-  dlbtnClicked: boolean;
-  constructor(private router: Router, private rout: ActivatedRoute, private movServ: MovieService, private userServ: UserService) { }
+  constructor(private router: Router, private rout: ActivatedRoute, private userServ: UserService, private http: HttpClient, private movServ: MovieService) {
+    this.rout.data.subscribe((data) => {
+      // console.log(data);
+
+      if (!data["movie"] || data["movie"].length == 0) {
+        router.navigate(["/page-not-found"], { relativeTo: rout });
+      } else {
+        this.movieObj = data["movie"][0];
+
+        this.movId = this.movieObj["_id"];
+        this.likes = this.movieObj["likes"];
+        this.dislikes = this.movieObj["dislikes"];
+        this.movRating = this.movieObj["ratings"]["rating"];
+        this.usrRating = this.userServ.getMovieRates(this.movId);
+        var movReviewr = this.movieObj["reviewer"];
+
+        var url = "http://localhost:8000/get/username";
+        this.http.post(url, { usrID: movReviewr }).subscribe((resData) => {
+          var fname = resData["firstName"];
+          var lname = resData["lastName"];
+
+          this.movReviewrName = fname + " " + lname;
+
+        });
+
+      }
+      // console.log(this.userServ.currentUser);
+      // console.log(this.usrRating);
+    });
+
+
+  }
 
   ngOnInit() {
+    this.rout.fragment.subscribe((frag) => {
+      const element = document.querySelector("#" + frag)
+      if (element) {
 
-    // $("[data-circle-graph]").each(function() {
-    //   var $graph = $(this),
-    //       percent = parseInt($graph.data('percent'), 10),
-    //       deg = 360*percent/100;
-    //   if(percent > 50) {
-    //     $graph.addClass('gt-50');
-    //   }
-    //   $graph.find('.circle-graph-progress-fill').css('transform','rotate('+ deg +'deg)');
-    //   $graph.find('.circle-graph-percents-number').html(percent+'%');
-    // });
-    
-    
-
-
-    this.rout.params.subscribe(
-      (params) => {
-        this.movieId = params["id"];
-        this.movie = this.movServ.getMovieByID(this.movieId);
-        //console.log(this.ratingClicked);
-        if (this.movieId in this.userServ.currentUser.getMyRatings()) {
-          this.setStyleOnRating(this.userServ.currentUser.getMyRatings()[this.movie.getId]);
-        } else {
-          this.setStyleOnRatingToGrey();
-        }
-        this.lbtnClicked = this.userServ.likedMovieFound(this.movie) ? true : false;
-        this.dlbtnClicked = this.userServ.dislikedMovieFound(this.movie) ? true : false;
+        element.scrollIntoView();
       }
-    );
-    //console.log("runnnning "+this.userServ.likedMovieFound(this.movie));
-
+    });
   }
 
+  ngOnChanges() {
+  }
 
-  oneLike() {
+  ngDoCheck() {
+    this.usrRating = this.userServ.getMovieRates(this.movId);
+    this.styleStar(this.usrRating);
 
-
-    //console.log(this.userServ.currentUser.getLikedMovie.length);
-
-    var flag = true;
-    this.userServ.currentUser.getLikedMovie.forEach(movie => {
-      //console.log(movie.getId);
-      if (movie.getId == this.movie.getId) {
-        flag = false;
-        return;
-      }
-    });
-
-    var flag1 = false;
-    this.userServ.currentUser.getDislikedMovie.forEach(movie => {
-      if (movie.getId == this.movie.getId) {
-        flag1 = true;
-        return;
-      }
-    });
-
-    if (flag || this.userServ.currentUser.getLikedMovie.length == 0) {
-      this.lbtnClicked = true;
-      this.dlbtnClicked = false;
-      this.userServ.addLikedMovie(this.movie);
-      this.movie.pLikes();
-      if (flag1) {
-        this.userServ.rmDislikedMovie(this.movie);
-        this.movie.mDislikes();
-      }
+    if (this.userServ.currentUser.getLikedMovie.includes(this.movId)) {
+      this.statusLD = 2;
+    } else if (this.userServ.currentUser.getDislikedMovie.includes(this.movId)) {
+      this.statusLD = 1;
     } else {
-      console.log("Already Liked!!");
+      this.statusLD = 0;
     }
   }
 
-  oneDisLike() {
+  onLike() {
 
-    var flag = true;
-    this.userServ.currentUser.getDislikedMovie.forEach(movie => {
-      if (movie.getId == this.movie.getId) {
-        flag = false;
-        return;
-      }
+
+    var userID = this.userServ.currentUser.getId;
+
+    var url = "http://localhost:8000/update/2/" + userID.toString() + "/" + this.movId;
+
+    this.http.get(url).subscribe((resData) => {
+
+
+      var getUrl = "http://localhost:8000/get/bundal/ld/" + userID.toString() + "/" + this.movId;
+      this.http.get(getUrl).subscribe((bundle) => {
+        // console.log(bundle);
+        this.userServ.currentUser.setLikedMovieArray = bundle["uLArray"];
+        this.userServ.currentUser.setDislikedMovieArray = bundle["uDArray"];
+        this.likes = bundle["mLikes"];
+        this.dislikes = bundle["mDislikes"];
+        this.movieObj["likes"] = bundle["mLikes"];
+        this.movieObj["dislikes"] = bundle["mDislikes"];
+
+        this.movServ.moviesList[this.movServ.movIndex]["likes"] = bundle["mLikes"];
+        this.movServ.moviesList[this.movServ.movIndex]["dislikes"] = bundle["mDislikes"];
+
+
+        this.statusLD = 2;
+      });
     });
+  }
 
-    var flag1 = false;
-    this.userServ.currentUser.getLikedMovie.forEach(movie => {
-      //console.log(movie.getId);
-      if (movie.getId == this.movie.getId) {
-        flag1 = true;
-        return;
-      }
+
+  onDisLike() {
+    var userID = this.userServ.currentUser.getId;
+
+    var url = "http://localhost:8000/update/1/" + userID.toString() + "/" + this.movId;
+
+    this.http.get(url).subscribe((resData) => {
+
+
+      var getUrl = "http://localhost:8000/get/bundal/ld/" + userID.toString() + "/" + this.movId;
+      this.http.get(getUrl).subscribe((bundle) => {
+
+        this.userServ.currentUser.setLikedMovieArray = bundle["uLArray"];
+        this.userServ.currentUser.setDislikedMovieArray = bundle["uDArray"];
+        this.likes = bundle["mLikes"];
+        this.dislikes = bundle["mDislikes"];
+
+        this.movServ.moviesList[this.movServ.movIndex]["likes"] = bundle["mLikes"];
+        this.movServ.moviesList[this.movServ.movIndex]["dislikes"] = bundle["mDislikes"];
+
+        this.movieObj["likes"] = bundle["mLikes"];
+        this.movieObj["dislikes"] = bundle["mDislikes"];
+
+
+
+        this.statusLD = 1;
+      });
     });
-
-    //console.log();
-    if (flag || this.userServ.currentUser.getDislikedMovie.length == 0) {
-      this.dlbtnClicked = true;
-      this.lbtnClicked = false;
-      this.userServ.addDislikedMovie(this.movie);
-      this.movie.pDislikes();
-
-      if (flag1) {
-        // console.log("Running2");
-        this.userServ.rmLikedMovie(this.movie);
-        this.movie.mLikes();
-      }
-    } else {
-      console.log("Already Disliked!!");
-    }
-  }
-
-  likeBtnColChanger() {
-    var style = { 'color': '#a8a8a8' }
-    if (this.lbtnClicked) {
-      style = { 'color': '#ff334e ' };
-    }
-    return style;
-  }
-
-  dislikeBtnColChanger() {
-    var style = { 'color': '#a8a8a8' }
-    if (this.dlbtnClicked) {
-      style = { 'color': '#ff334e' };
-    }
-    return style;
   }
 
   showRating() {
-    this.ratingClicked = this.ratingClicked ? false : true;
+    this.showStars = this.showStars ? false : true;
   }
 
-  setDisplay() {
-    if (this.ratingClicked) {
-      return { 'display': 'block' }
+
+  ldStyle(num: number) {
+    var style = { 'color': '#a8a8a8' };
+
+    if (this.statusLD === num) {
+      style = this.movServ.setFontColor();
     }
 
-    return { 'display': 'none' }
-  }
-
-  gotRating(num: number) {
-
-
-    // console.log(this.movie.getRating);
-    var totalRate = this.movie.getRating["Rating"];
-    var totalUsers = this.movie.getRating["users"];
-
-    // console.log("totalUsers : " + totalUsers);
-    // console.log("totalRate : " + totalRate);
-
-    if (!(this.movieId in this.userServ.currentUser.getMyRatings())) {
-      totalUsers += 1;
-      var sum = totalRate * (totalUsers - 1);
-      totalRate = (sum + (num * 20)) / totalUsers;
-
-
-    } else {
-
-      if (totalUsers === 1) {
-        var sum = totalRate * (totalUsers - 1);
-        totalRate = (sum + (num * 20)) / totalUsers;
-      } else {
-        var sum = (totalRate * (totalUsers)) - (this.userServ.currentUser.getMyRatings()[this.movie.getId] * 20);
-        totalRate = (sum + (num * 20)) / totalUsers;
-      }
-
-    }
-
-    this.userServ.currentUser.setMyRating(this.movieId, num);
-    this.setStyleOnRating(num);
-    this.movie.setRating(eval(totalUsers), totalRate);
-
-    var deg = 360*totalRate/100;
+    return style;
 
   }
 
-  setStyleOnRating(num) {
-    //console.log("this is also");
 
-    this.starList = [
-      { 'color': 'grey' },
-      { 'color': 'grey' },
-      { 'color': 'grey' },
-      { 'color': 'grey' },
-      { 'color': 'grey' }
+  gotRating(rate: number) {
+    // console.log(rate);
+
+    rate += 1;
+
+    var usrId = this.userServ.currentUser.getId;
+    var movId = this.movId;
+
+
+
+    var url = "http://localhost:8000/rate/" + usrId + "/" + movId + "/" + rate;
+    this.http.get(url).subscribe((resData) => {
+      this.userServ.currentUser.setMyRating(movId, rate);
+      this.movRating = resData["movRatings"]["rating"];
+
+      this.movServ.moviesList[this.movServ.movIndex]["ratings"] = resData["movRatings"];
+
+      this.styleStar(rate);
+    });
+
+
+
+
+  }
+
+  styleStar(rate: number) {
+
+    this.starColor = [
+      { color: "grey" },
+      { color: "grey" },
+      { color: "grey" },
+      { color: "grey" },
+      { color: "grey" }
     ];
-    for (var i = 0; i < num; i++) {
-      this.starList[i] = { 'color': '#ffcc00' };
+
+    for (var i = 0; i < rate; i++) {
+      this.starColor[i]["color"] = this.movServ.setFontColor().color;
     }
-  }
-
-  setStyleOnRatingToGrey() {
-    this.starList = [
-      { 'color': 'grey' },
-      { 'color': 'grey' },
-      { 'color': 'grey' },
-      { 'color': 'grey' },
-      { 'color': 'grey' }
-    ];
-  }
-
-  setColoredRating(num: number) {
-    return this.starList[num - 1];
   }
 
 }

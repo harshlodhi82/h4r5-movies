@@ -1,91 +1,133 @@
 import { User } from '../models/user.model';
-import { Movie } from '../models/movie-model';
+import { HttpClient } from '@angular/common/http';
 
 export class UserService {
-    currentStatus:string = "Offline";
+    currentStatus: string = "Offline";
 
-    currentUser:User;
-
-    allUser: Array<User> = [
-        new User("harshlodhi82@gmail.com", "harsh@999")
-    ];
+    currentUser: User = null;
 
 
-    validate(email: string) {
-        var flag = true;
-        this.allUser.forEach(user => {
-            if (user.getEmail === email) {
-                this.currentStatus = "Online";
-                this.currentUser = user;
-                flag = false;
-                return;
-            }
-        });
-
-        return flag;
+    constructor(private http: HttpClient) {
+        this.currentStatus = localStorage.getItem("currentStatus");
     }
 
-    validatePass(email, pass) {
+
+    async validate(email: string, pass: String, flag: number) {
+
+        if (flag == 0) {
+            var _flag = false;
+        } else if (flag == 1) {
+            var _flag = true;
+        }
+
+
+        var url = "http://localhost:8000/validate/email/" + email + "/" + pass + "/" + flag;
+        await this.http.get(url).toPromise().then((resData) => {
+
+            if (flag == 0) {
+                _flag = resData["valid"];
+
+            } else if (flag == 1) {
+                _flag = resData["newUser"];
+            }
+        });
+        return _flag;
+    }
+
+
+    async getDataOfUser(email: string) {
+        var data;
+        var url = "http://localhost:8000/getData/email/";
+        await this.http.post(url, { email: email.trim() }).toPromise().then((resData) => {
+
+            // console.log(resData);
+
+            data = resData;
+        });
+        return data;
+    }
+
+    createUser(_fname: string, _lname: string, _email: string, pass: string, _country: string) {
+
+        var _body = {
+            fname: _fname,
+            lname: _lname,
+            email: _email,
+            password: pass,
+            country: _country
+        };
+
+        var url = "http://localhost:8000/createuser/";
+        this.http.post(url, _body).subscribe((resData) => {
+            var newUser = new User(resData["_id"], _fname, _lname, _email, pass, _country, [], [], []);
+            this.currentUser = newUser;
+            this.currentStatus = "Online";
+        });
+    }
+
+    addLikedMovie(movieID: string) {
+        var userID = this.currentUser.getId;
+
+        var url = "http://localhost:8000/update/likedmovies";
+        this.http.put(url, {
+            movID: movieID,
+            uID: userID
+        }).subscribe((resData) => {
+            // console.log(resData);
+            this.currentUser.getLikedMovie.push(movieID);
+        });
+    }
+
+    addDislikedMovie(movieID: string) {
+
+        var userID = this.currentUser.getId;
+
+        var url = "http://localhost:8000/update/dislikedmovies";
+        this.http.put(url, {
+            movID: movieID,
+            uID: userID
+        }).subscribe((resData) => {
+            // console.log(resData);
+            this.currentUser.getDislikedMovie.push(movieID);
+        });
+
+    }
+
+    rmLikedMovie(movieID: string) {
+        var userID = this.currentUser.getId;
+
+        var url = "http://localhost:8000/update/rm/likedmovies";
+        this.http.put(url, {
+            usrID: userID,
+            movID: movieID
+        }).subscribe((resData) => {
+            // console.log(resData);
+
+            this.currentUser.likedList = resData[0]["likedMovies"];
+        });
+
+
+    }
+
+    rmDislikedMovie(movieID: string) {
+        var userID = this.currentUser.getId;
+
+        var url = "http://localhost:8000/update/rm/dislikedmovies";
+        this.http.put(url, {
+            usrID: userID,
+            movID: movieID
+        }).subscribe((resData) => {
+            // console.log(resData);
+
+            this.currentUser.dislikedList = resData[0]["dislikedMovies"];
+        });
+
+    }
+
+    likedMovieFound(movieId: string) {
         var flag = false;
-        this.allUser.forEach(user => {
-            if (user.getEmail === email) {
-                if(user.getPass === pass){
-                    this.currentUser = user;
-                    flag = true;
-                    return;
-                }
-            }
-        });
-
-        return flag;
-    }
-
-    createUser(email: string, pass: string) {
-        var newUser = new User(email, pass);
-        this.allUser.push(newUser);
-        this.currentUser = newUser;
-        this.currentStatus = "Online";
-    }
-
-    addLikedMovie(movie:Movie){
-        this.currentUser.getLikedMovie.push(movie);
-    }
-
-    addDislikedMovie(movie:Movie){
-        this.currentUser.getDislikedMovie.push(movie);
-    }
-
-    rmLikedMovie(movie:Movie){
-        // this.currentUser.getLikedMovie.push(movie);
-        var arr = [];
-        this.currentUser.getLikedMovie.forEach(element => {
-            if(element.getId != movie.getId){
-                arr.push(element);
-            }
-        });
-
-        this.currentUser.likedList = arr;
-
-    }
-
-    rmDislikedMovie(movie:Movie){
-        // this.currentUser.getDislikedMovie.push(movie);
-
-
-        var arr = [];
-        this.currentUser.getDislikedMovie.forEach(element => {
-            if(element.getId != movie.getId){
-                arr.push(element);
-            }
-        });
-
-        this.currentUser.dislikedList = arr;
-    }
-
-    likedMovieFound(movie:Movie){
-        var flag =false;
-        this.currentUser.getLikedMovie.forEach(element => {
-            if(element.getId == movie.getId){
+        this.currentUser.getLikedMovie.forEach(movID => {
+            if (movieId == movID) {
                 flag = true;
                 return;
             }
@@ -93,10 +135,10 @@ export class UserService {
         return flag;
     }
 
-    dislikedMovieFound(movie:Movie){
-        var flag =false;
-        this.currentUser.getDislikedMovie.forEach(element => {
-            if(element.getId == movie.getId){
+    dislikedMovieFound(movieId: string) {
+        var flag = false;
+        this.currentUser.getDislikedMovie.forEach(movID => {
+            if (movieId == movID) {
                 flag = true;
                 return;
             }
@@ -104,8 +146,23 @@ export class UserService {
         return flag;
     }
 
-    
+    getMovieRates(movID: string) {
 
-    
+        var rates = 0;
+        for (var i = 0; i < this.currentUser.getMyRatings.length; i++) {
+            if (movID in this.currentUser.getMyRatings[i]) {
+                rates = this.currentUser.getMyRatings[i][movID];
+                // console.log('MOVIE RATES', rates);
+
+                break;
+            }
+        }
+
+        return rates;
+    }
+
+
+
+
 
 }

@@ -5,3 +5,7 @@ input.ng-invalid.ng-touched {
 textarea.ng-invalid.ng-touched {
     border-color: rgb(255, 32, 32);
 }
+
+.my-upload-img{
+    z-index: 0;
+}

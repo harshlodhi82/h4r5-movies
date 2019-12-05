@@ -1,23 +1,10 @@
 <div class="container-fluid mt-4">
     <div class="row">
         <div class="col-md-7">
-
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-9">
-                        <input type="text" class="form-control" [(ngModel)]="movServ.setSearchQuery" (input)="resetSearch()" #squery>
-                        <p class="text-danger mt-2">{{searchText}}</p>
-                    </div>
-                    <div class="col-3">
-                        <button class="btn btn-outline-danger w-100" (click)="getSearch(squery)"> <i class="fas fa-search"></i></button>
-                    </div>
-                </div>
-
-            </div>
             <app-movies-list></app-movies-list>
         </div>
         <div class="col-md-5">
-            <router-outlet></router-outlet>
+            <router-outlet  ></router-outlet>
         </div>
     </div>
 </div>

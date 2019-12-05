@@ -1,23 +1,33 @@
 import { Movie } from '../models/movie-model';
+import { HttpClient } from '@angular/common/http';
+import { Const } from './const-service';
 
 export class MovieService {
     private srchQuery = "";
-    
-    private info: string = "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus obcaecati qui facere aliquam beatae! Sapiente sed accusantium numquam itaque ea.";
-    moviesList: Array<Movie> = [
-        new Movie("1", "Avatar", this.info, "https://cnet3.cbsistatic.com/img/_c60tyhNYZ1ncjqXGsxiX3MRfH8=/1092x0/2019/01/11/b251bf04-5bf8-469a-be8d-79489551460b/avatar-2009.jpg"),
-        new Movie("2", "Avengers", this.info, "https://i.ytimg.com/vi/48fKIXlxaXk/maxresdefault.jpg"),
-        new Movie("3", "End Game", this.info, "https://assets1.ignimgs.com/2019/04/25/avengers-cast-1556221213216.jpg?fit=bounds&width=1280"),
-        new Movie("4", "Far From Home", this.info, "https://wegotthiscovered.com/wp-content/uploads/2019/07/Spider-Man-Far-From-Home-Mysterio-Post-Credits-Scene-670x335.jpg"),
-        new Movie("5", "Inception", this.info, "https://cdn.onebauer.media/one/empire-tmdb/films/27205/images/s2bT29y0ngXxxu2IA8AOzzXTRhd.jpg?quality=50&width=1800&ratio=16-9&resizeStyle=aspectfill&format=jpg"),
-        new Movie("6", "MIB", this.info, "https://cdn3.movieweb.com/i/article/vFRqoTc5V0CWkQjBSkuVOptDtQakzv/798:50/Men-In-Black-International-Photo-Chris-Hemsworth-Tessa.jpg")
-    ];
 
-    availID:number;
+    moviesList: Array<object> = [];
+    movIndex:number = 0;
 
-    constructor() {
+    availID: number;
+  themeColor:string;
+
+
+    constructor(private constServ:Const ,private http: HttpClient) {
         this.availID = this.moviesList.length;
+        this.themeColor = constServ.THEME_COLOR;
+    }
 
+
+    setBG(){
+        return {"background-color":this.themeColor};
+    }
+
+    setFontColor(){
+        return {"color":this.themeColor};
+    }
+
+    setBgFontColor(){
+        return {"color":"white", "background-color":this.themeColor};
     }
 
     get getSearchQuery() {
@@ -25,21 +35,47 @@ export class MovieService {
     }
 
     set setSearchQuery(srchQuery) {
-        //console.log(srchQuery);
 
         this.srchQuery = srchQuery;
     }
 
-    getMovieByID(id: string) {
-        var movie;
-        this.moviesList.forEach(mov => {
-            if (mov.getId === id) {
-                movie = mov;
-                return;
-            }
+    async getAllMovies() {
+
+        var url = "http://localhost:8000/get/movies";
+
+        await this.http.get(url).toPromise().then((resData: any) => {
+
+            this.moviesList = resData;
+            this.moviesList = this.moviesList.reverse();
+            // console.log("hEY!! mOVIE LOADED");
+            
+            return this.moviesList;
         });
+
+        return this.moviesList;
+    }
+
+
+    plusLike(movieId: string) {
+        var url = "http://localhost:8000/update/likes";
+        this.http.put(url, { movID: movieId }).subscribe((resData) => {
+            // console.log(resData);
+
+        })
+    }
+
+    async plusDislike(movieId: string) {
+        var movie:Object;
+        var url = "http://localhost:8000/update/dislikes";
+        await this.http.put(url, { movID: movieId }).toPromise().then((resData) => {
+            // console.log(resData);
+            movie = resData[0];
+        });
+
         return movie;
     }
+
+
 
 
 }

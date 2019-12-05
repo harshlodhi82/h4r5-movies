@@ -1,26 +1,55 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="card-deck ">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="form-group w-100">
+                                        <div class="row ">
+                                            <div class="col-9">
+                                                <input type="text" placeholder="Search Movies..." class="form-control" [(ngModel)]="setSearchQuery"
+                                                    (input)="resetSearch()" #squery>
+                                                <p class=" mt-2" >{{searchText}}</p>
+                                            </div>
+                                            <div class="col-3">
+                                                <button class="btn w-100" [ngStyle] = "movies.setBgFontColor()" (click)="getSearch(squery)"> <i
+                                                        class="fas fa-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-deck ">
+                                        <div class="card movie-card mt-3" (click)="navigateInfo(i)" *ngFor="let i of filterList(true)">
+                                            <img class="card-img-top" [src]="i.imageUrl" alt="">
+                                            <div class="card-body">
+                                                <h4 class="card-titel">{{ i.name }}</h4>
+                                                <hr class="my-2">
+                                                <small class="card-text" style="color: rgb(173, 173, 173)">
+                                                    {{ "Posted Date : "+i.date.slice(0,10) }}</small>
+                                                <hr class="my-2">
+                                                <p class="card-text" style="word-spacing: 5px;
+                                                line-height: 30px;">{{ i.info.slice(0,150)+" ..." }}</p>
+                                            </div>
+                                            <hr class="my-2">
+                                            <button class="btn  m-3" [ngStyle] = "movies.setBgFontColor()">
+                                                <i class="fas fa-star"> 
+                                                </i> Rating :
+                                                {{ i.ratings.rating.toFixed(1) }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <button class="mx-auto btn  m-4" [ngStyle] = "movies.setBgFontColor()" (click)="loadmore()" *ngIf="!showResetBtn"
+                                        [disabled]="loadmoreBtnDisabled">{{ btnMsg }}</button>
+                                    <button class="mx-auto btn  m-4" [ngStyle] = "movies.setBgFontColor()" (click)="resetData()" *ngIf="showResetBtn">Reset
+                                        Search</button>
+                                </div>
+                            </div>
 
-            <div class="card movie-card mt-3" (click)="navigateInfo(i.getId)" *ngFor="let i of filterList(true)">
-
-                <div class="my-cont">
-                    <img class="card-img-top" [src]="i.getImgUrl" alt="">
-                </div>
 
 
 
-                <div class="card-body">
-                    <h4 class="card-titel">{{ i.getName }}</h4>
-                    <hr class="my-4">
-                    <p class="card-text">{{ i.getInfo.slice(0,50)+" ..." }}</p>
-                </div>
-                <button class="btn btn-outline-danger m-4"><i class="fas fa-star"> </i> Rating :
-                    {{ i.getRating["Rating"].toFixed(1) }}</button>
-            </div>
 
 
-        </div>
-    </div>
 
-</div>
+
+
+
+
+
+
+                            

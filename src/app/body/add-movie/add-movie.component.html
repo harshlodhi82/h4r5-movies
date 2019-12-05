@@ -1,36 +1,48 @@
 <div class="container">
-        <div class="row justify-content-center "> 
-            <div class="shadow-lg col-xs-12 col-md-6 col-md-offset-3 text-white mt-4 p-4" >
-                <h4 class="text-danger">Add Movie Review</h4>
-                <hr>
-                <form (ngSubmit)="addReview(f)" #f="ngForm">
-                    <!-- <div class="alert alert-danger" *ngIf="error">
-                        <p>{{ error }}</p>
-                    </div> -->
-                    <div class="form-group">
-                        <label for="name" class="text-dark">Movie Name</label>
-                        <input name="name" id="name" type="text" class="form-control" placeholder="Enter movie name" ngModel required #name="ngModel">
-                        <small class="text-danger" *ngIf="name.touched && !name.valid" >Please enter movie name.</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="review" class="text-dark">Add Review</label>
-                        <textarea  class="form-control" name="review" id="review" rows="4" placeholder="Add your review" ngModel required #review="ngModel"></textarea>
-                        <!-- <input name="password" id="password" type="text" class="form-control" placeholder="Add your review" > -->
-                        <small class="text-danger" *ngIf="review.touched && !review.valid" >Please give your review.</small>
-                    </div>
-                    <div class="form-group">
-                            <label for="img" class="text-dark">Image URL</label>
-                            <input name="img" id="img" type="text" class="form-control" placeholder="Enter image ulr" ngModel required #img="ngModel">
-                            <small class="text-danger" *ngIf="img.touched && !img.valid" >Please enter image ulr.</small>
-                        </div>
-                    <div class="form-group text-right">
-                        <!-- <button routerLink="/signup" type="button" class="btn btn-default text-danger">Create account?</button> -->
-                        <button type="submit" class="btn bg-danger text-white" [disabled]="!f.valid" >Add Review</button>
-                    </div>
-                </form>
-            </div>
+    <div class="row justify-content-center ">
+        <div class="shadow-lg col-xs-12 col-md-6 col-md-offset-3 text-white mt-4 p-4">
+            <h4 [ngStyle] = "movServ.setFontColor()">Add Movie Review</h4>
+            <hr>
+            <form (ngSubmit)="addReview(f)" #f="ngForm">
 
+                <div class="form-group">
+                    <label for="name" class="text-dark">Movie Name</label>
+                    <input name="name" id="name" type="text" class="form-control" placeholder="Enter movie name" ngModel
+                        required #name="ngModel">
+                    <small class="text-danger" *ngIf="name.touched && !name.valid">Please enter movie name.</small>
+                </div>
+                <div class="form-group">
+                    <label for="review" class="text-dark">Movie Information</label>
+                    <textarea class="form-control" name="info" id="info" rows="4" placeholder="Add Information" ngModel
+                        required #info="ngModel"></textarea>
+                    <small class="text-danger" *ngIf="info.touched && !info.valid">Please enter Movie's
+                        Information.</small>
+                </div>
+                <div class="form-group">
+                    <label for="review" class="text-dark">Add Review</label>
+                    <textarea class="form-control" name="review" id="review" rows="4" placeholder="Add your review"
+                        ngModel required #review="ngModel"></textarea>
+                    <small class="text-danger" *ngIf="review.touched && !review.valid">Please give your review.</small>
+                </div>
+                <div class="form-group">
+                    <label for="customFile" class="text-dark">Upload Image</label>
+                    <div class="custom-file my-upload-img">
+                        <input name="imgFile" type="file" class="custom-file-input bg-danger" id="customFile" ngModel
+                            #file="ngModel" (change)="setFile($event)">
+                        <label class="custom-file-label" for="customFile">{{ imgFileName(file) }}</label>
+                    </div>
+
+
+                </div>
+                <div class="form-group text-right">
+                    <!-- <p>{{f.valid}}</p> -->
+                    <button type="submit" class="btn text-white" [ngStyle]="movServ.setBG()" [disabled]="!f.valid">Add Review</button>
+                </div>
+
+            </form>
         </div>
-    
-    
+
     </div>
+
+
+</div>

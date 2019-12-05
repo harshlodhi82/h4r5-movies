@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row justify-content-center ">
         <div class="shadow-lg col-xs-12 col-md-6 col-md-offset-3 text-white mt-4 p-4">
-            <h4 class="text-danger">Login</h4>
+            <h4 [ngStyle] = "movServe.setFontColor()">Login</h4>
             <hr>
             <form (ngSubmit)="validater(f)" #f="ngForm">
                 <div class="alert alert-danger" *ngIf="error">
@@ -20,45 +20,13 @@
                     <small class="text-danger" *ngIf="pass.touched && !pass.valid">Please enter password</small>
                 </div>
                 <div class="form-group text-right">
-                    <button routerLink="/signup" type="button" class="btn btn-default text-danger">Create
+                    <button routerLink="/signup" [ngStyle] = "movServe.setFontColor()" type="button" class="btn btn-default">Create
                         account?</button>
-                    <button type="submit" class="btn bg-danger text-white" [disabled]="!f.valid">Login <i class="fas fa-sign-in-alt"></i></button>
+                    <button type="submit" class="btn " [ngStyle] = "movServe.setBgFontColor()" [disabled]="!f.valid">Login <i class="fas fa-sign-in-alt"></i></button>
                 </div>
             </form>
         </div>
-        <!-- <div class="col-12 col-md-12">
-            <div class="form-group bg-danger p-4 my-form">
-                <div class="row">
-                    <div class="col-sm-2 mt-4">
-                        <label for="email" class="text-white">Email</label>
-                    </div>
-                    <div class="col-sm-10 mt-4">
-                        <input id="email" type="text" class="form-control" placeholder="Enter your email address.." #email>
-                    </div>
-
-                    <div class="col-sm-2 mt-2">
-                        <label for="pass" class="text-white">Password</label>
-                    </div>
-                    <div class="col-sm-10 mt-2">
-                        <input id="pass" type="text" class="form-control" placeholder="Enter your password.." #pass>
-                    </div>
-
-                    <div class="col-sm-2 mt-5 mb-2">
-                    </div>
-
-                    <div class="col-sm-5 mt-5 mb-2 my-link">
-                        <a routerLink="/signup" class="text-white">Create account?</a>
-                    </div>
-
-                    <div class="col-sm-4 mt-5 mb-2">
-                        <button class="btn btn-light text-danger float-right" (click)="validater(email, pass)">Login</button>
-                    </div>
-                </div>
-
-
-            </div>
-
-        </div> -->
+        
     </div>
 
 

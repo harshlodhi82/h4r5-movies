@@ -1,11 +1,36 @@
 <div class="container">
     <div class="row justify-content-center ">
-        <div class="shadow-lg col-xs-12 col-md-6 col-md-offset-3 text-white mt-4 p-4">
-            <h4 class="text-danger">Signup</h4>
+        <div class="shadow-lg col-xs-12 col-md-6 col-md-offset-3 mt-4 p-4">
+            <h4 [ngStyle] = "movServe.setFontColor()">Signup</h4>
             <hr>
             <form (ngSubmit)="createuser(f)" #f="ngForm">
                 <div class="alert alert-danger" *ngIf="error">
                     <p>{{ error }}</p>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="fname">First Name</label>
+                            <input name="fname" id="fname" type="text" class="form-control"
+                                placeholder="Enter your First Name" ngModel required #fname="ngModel">
+                            <small class="text-danger" *ngIf="fname.touched && !fname.value">Please enter frist
+                                name</small>
+
+                        </div>
+
+                        <div class="col-6">
+                            <label for="lname">Last Name</label>
+                            <input name="lname" id="lname" type="text" class="form-control"
+                                placeholder="Enter your Last Name" ngModel required #lname="ngModel">
+                            <small class="text-danger" *ngIf="lname.touched && !lname.value">Please enter last
+                                name</small>
+                        </div>
+
+
+                    </div>
+
+
                 </div>
                 <div class="form-group">
                     <label for="email" class="text-dark">E-Mail</label>
@@ -17,10 +42,14 @@
                 <div class="form-group">
                     <label for="password" class="text-dark">Password</label>
                     <input name="password" id="password" type="text" class="form-control"
-                        placeholder="Enter your Password" ngModel password required minlength="8" pattern="^(?=.*\d)(?=.*[a-z])(?!.*\s)(?=.*[!#$%&'()*+,-/:=>?@\^_`{|}~]).{8,12}$" #pass="ngModel">
+                        placeholder="Enter your Password" ngModel password required minlength="8"
+                        pattern="^(?=.*\d)(?=.*[a-z])(?!.*\s)(?=.*[!#$%&'()*+,-/:=>?@\^_`{|}~]).{8,12}$"
+                        #pass="ngModel">
 
-                    <small class="text-danger" *ngIf="pass.touched && !pass.valid && pass.value.length > 0">Enter atleast 8 to 12 charecters, one special charecter and a number.</small>
-                    <small class="text-danger" *ngIf="pass.touched && pass.value.length == 0">Please enter password</small>
+                    <small class="text-danger" *ngIf="pass.touched && !pass.valid && pass.value.length > 0">Enter
+                        atleast 8 to 12 charecters, one special charecter and a number.</small>
+                    <small class="text-danger" *ngIf="pass.touched && pass.value.length == 0">Please enter
+                        password</small>
                 </div>
                 <div class="form-group">
                     <label for="cpass" class="text-dark">Confirm password</label>
@@ -29,52 +58,14 @@
                     <small class="text-danger" *ngIf="cpass.touched && !cpass.valid">Please confirm password.</small>
                 </div>
                 <div class="form-group text-right">
-                    <button routerLink="/login" type="button" class="btn btn-default text-danger">Already have an
+                    <button routerLink="/login" type="button" class="btn btn-default " [ngStyle] = "movServe.setFontColor()">Already have an
                         account?</button>
-                    <button type="submit" class="btn bg-danger text-white" [disabled]="!f.valid">Signup <i class="fas fa-user-plus"></i></button>
+                    <button type="submit" class="btn " [ngStyle] = "movServe.setBgFontColor()" [disabled]="!f.valid">Signup <i
+                            class="fas fa-user-plus"></i></button>
                 </div>
             </form>
         </div>
-        <!-- <div class="col-12">
-            <div class="form-group bg-danger p-4 my-form">
-                <div class="row">
-                    <div class="col-sm-2 mt-4">
-                        <label for="email" class="text-white">Email</label>
-                    </div>
-                    <div class="col-sm-10 mt-4">
-                        <input id="email" type="text" class="form-control" placeholder="Enter your email address.." #email>
-                    </div>
-
-                    <div class="col-sm-2 mt-2">
-                        <label for="pass" class="text-white">Password</label>
-                    </div>
-                    <div class="col-sm-10 mt-2">
-                        <input id="pass" type="text" class="form-control" placeholder="Create your password.." #pass>
-                    </div>
-
-                    <div class="col-sm-2 mt-2">
-                        <label for="cpass" class="text-white">Confirm</label>
-                    </div>
-                    <div class="col-sm-10 mt-2">
-                        <input id="cpass" type="text" class="form-control" placeholder="Confirm your password.." #cpass>
-                    </div>
-
-                    <div class="col-sm-2 mt-5 mb-2">
-                    </div>
-
-                    <div class="col-sm-5 mt-5 mb-2 my-link">
-                        <a routerLink="/login" class="text-white">Already have an account?</a>
-                    </div>
-
-                    <div class="col-sm-4 mt-5 mb-2">
-                        <button class="btn btn-light text-danger float-right" (click)="createuser(email, pass, cpass)">Signup</button>
-                    </div>
-                </div>
-
-
-            </div>
-
-        </div> -->
+       
     </div>
 
 

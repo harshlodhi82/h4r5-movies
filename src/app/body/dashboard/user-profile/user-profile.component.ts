@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/shared/services/users-services';
 import { Router } from '@angular/router';
+import { MovieService } from 'src/app/shared/services/movie-services';
 
 @Component({
   selector: 'app-user-profile',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class UserProfileComponent implements OnInit {
 
-  constructor(private userServ: UserService, private router:Router) {
+  constructor(private userServ: UserService, private router:Router, private movServ:MovieService) {
   }
 
   ngOnInit() {
