@@ -1,5 +1,6 @@
 .movie-card{
-    min-width: 14rem; 
+    max-width: 300px;
+    min-width: 14rem;
     cursor: pointer;
     box-shadow: 1px 1px 10px rgb(136, 136, 136);
 }
@@ -17,7 +18,7 @@
 }
 .mdiv img {
     position: absolute;
-    margin: auto; 
+    margin: auto;
     left: -100%;
     right: -100%;
     top: -100%;
@@ -25,11 +26,15 @@
 }
 
 .my-cont{
-    max-height: 100px;
+    height: 167px;
     background-color: red;
     overflow: hidden;
 }
 
+.custom-img-top {
+  width: 100%;
+  height: 100%;
+}
 
 
 

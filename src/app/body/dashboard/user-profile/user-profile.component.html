@@ -6,7 +6,7 @@
                     <p class="align-middle text-uppercase">{{ userServ.currentUser.getEmail.slice(0,1) }}</p>
                 </div>
                 <div class="card-body m-4">
-                    <h5 class="card-titel m-4">{{ userServ.currentUser.getEmail }}</h5>
+                    <span class="card-titel m-4 email-txt-size">{{ userServ.currentUser.getEmail }}</span>
                     <hr class="my-2 m-4">
                     <button class="btn btn-outline-danger m-4" (click)="logout()">Logout <i class="fas fa-sign-out-alt"></i></button>
                     <br>

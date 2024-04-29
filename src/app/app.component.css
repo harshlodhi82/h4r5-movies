@@ -5,7 +5,7 @@
     bottom:0;
     width:100%;
     text-align: center;
-    background-color: white;    
+    background-color: white;
     box-shadow: -1px 0px 10px grey;
 }
 
@@ -13,5 +13,5 @@
     position: relative;
     top:50%;
     transform: translateY(-50%);
-    
+
 }
