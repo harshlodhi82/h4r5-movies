@@ -7,7 +7,8 @@ export class UserService {
     currentUser:User;
 
     allUser: Array<User> = [
-        new User("harshlodhi82@gmail.com", "harsh999")
+        new User("harshlodhi82@gmail.com", "harsh999"),
+        new User("admin@gmail.com", "parul999"),
     ];
 
 
